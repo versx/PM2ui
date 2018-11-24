@@ -1,9 +1,9 @@
+const https = require('https');
 var pm2 = require('pm2');
-var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
-var app = express();
 
+var app = express();
 app.set('view engine', 'html');
 app.use(bodyParser());
 //app.use(express.static(__dirname + '/View'));
@@ -39,17 +39,11 @@ app.post('/submit', function(req, res) {
     console.log(body);
 	var client = new HttpClient();
     if (body.hasOwnProperty('start')) {
-        client.get('/start/' + body.instance, function(response) {
-			alert(response);
-		});
+        get('/start/' + body.instance);
     } else if (body.hasOwnProperty('stop')) {
-        client.get('/stop/' + body.instance, function(response) {
-			alert(response);
-		});
+        get('/stop/' + body.instance);
     } else if (body.hasOwnProperty('restart')) {
-        client.get('/restart/' + body.instance, function(response) {
-			alert(response);
-		});
+        get('/restart/' + body.instance);
     }
     res.end();
 });
@@ -126,6 +120,22 @@ var server = app.listen(port, function() {
     console.log("Listening on http://%s:%s", host, port);
 });
 
+function get(url) {
+	https.get(url), function(resp) {
+		var data = '';
+		
+		resp.on('data', function(chunk) {
+			data += chunk;
+		});
+		
+		resp.on('end', function() {
+			console.log(JSON.parse(data).explanation);
+			alert(data);
+		});
+	}).on('error', function(err) {
+		console.log("Error:", err.message);
+	});
+}
 
 function getInstances() {
     var instances;
