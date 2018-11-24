@@ -33,7 +33,7 @@ app.get('/test', function(req, res) {
   </head>
   <body>
     <div class="container">
-      <div class="table-responsive-md">
+      <div class="table-responsive-sm">
         <table class="table table-striped table-bordered table-hover table-responsive">
           <thead class="thead-dark">
             <th scope="col">Name</th>
@@ -96,8 +96,8 @@ app.post('/submit', function(req, res) {
     var body = req.body;
     console.log(body);
 
-	var baseUrl = req.protocol + "://" + req.hostname + ":" + port;
-	var url = baseUrl;
+    var baseUrl = req.protocol + "://" + req.hostname + ":" + port;
+    var url = baseUrl;
     if (body.hasOwnProperty('start')) {
         url += "/start/" + body.instance;
     } else if (body.hasOwnProperty('stop')) {
@@ -109,20 +109,20 @@ app.post('/submit', function(req, res) {
         res.end();
     }
 	
-	http.get(url, function(resp) {
-		var data = '';
-		resp.on('data', function(chunk) {
-			data += chunk;
-		});
+    http.get(url, function(resp) {
+        var data = '';
+        resp.on('data', function(chunk) {
+            data += chunk;
+        });
 		
-		resp.on('end', function() {
-			console.log(data);
-			res.write(data);
-			res.end();
-		});
-	}).on('error', function(err) {
-		console.log("Error:", err.message);
-	});
+        resp.on('end', function() {
+            console.log(data);
+            res.write(data);
+            res.end();
+        });
+    }).on('error', function(err) {
+        console.log("Error:", err.message);
+    });
 });
 
 app.get('/list', function(req, res) {
@@ -142,7 +142,7 @@ app.get('/list', function(req, res) {
                 status:x.pm2_env.status
             };
         });
-		//TODO: Write table with control buttons
+
         res.write(JSON.stringify(instances));
         res.end();
     });
