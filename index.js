@@ -32,8 +32,8 @@ app.get('/test', function(req, res) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="table-responsive-sm">
+    <div class="container-fluid">
+      <div class="table-responsive-md">
         <table class="table table-striped table-bordered table-hover">
           <thead class="thead-dark">
             <th scope="col">Name</th>
