@@ -39,6 +39,8 @@ app.get('/test', function(req, res) {
 			<th scope="col">PID</th>
 			<th scope="col">CPU</th>
 			<th scope="col">Memory</th>
+			<th scope="col">Uptime</th>
+			<th scope="col">Status</th>
 		</thead>
 		<tbody>`;
     pm2.list(function(err, processDescriptionList) {
