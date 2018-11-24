@@ -19,7 +19,7 @@ pm2.connect(function(err) {
 });
 
 app.get('/test', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
+    //res.sendFile(__dirname + '/index.html');
     //res.render('index', instances, function(err, html) {});
 	
 	var html = `
@@ -65,6 +65,11 @@ app.get('/test', function(req, res) {
 				<th>` + element.pid + `</th>
 				<th>` + element.cpu + `%</th>
 				<th>` + (element.mem / 1024) + `KB</th>
+				<div class="btn-group" role="group" aria-label="...">
+				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
+				  <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
+				  <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
+				</div>
 			</tr>
 			`;
 		});
@@ -74,10 +79,6 @@ app.get('/test', function(req, res) {
 </html>`;
 		res.write(html);
 		res.end();
-		
-		//TODO: Write table with control buttons
-        //res.write(JSON.stringify(instances));
-        //res.end();
     });
 });
 
