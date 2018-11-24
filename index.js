@@ -68,8 +68,8 @@ app.get('/test', function(req, res) {
 			  <th scope="row">` + element.name + `</th>
 			  <th>` + element.pid + `</th>
 			  <th>` + element.cpu + `%</th>
-			  <th>` + (element.mem / 1024) + `KB</th>
-			  <th>` + element.uptime + `</th>
+			  <th>` + formatNumber((element.mem / 1024)) + `KB</th>
+			  <th>` + formatTime(element.uptime) + `</th>
 			  <th class="` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
 			  <th>
 			    <div class="btn-group" role="group" aria-label="...">
@@ -195,3 +195,23 @@ var server = app.listen(port, function() {
     var host = server.address().address;
     console.log("Listening on http://%s:%s", host, port);
 });
+
+function formatTime(timestamp) {
+	// Create a new JavaScript Date object based on the timestamp
+	// multiplied by 1000 so that the argument is in milliseconds, not seconds.
+	var date = new Date(unix_timestamp*1000);
+	// Hours part from the timestamp
+	var hours = date.getHours();
+	// Minutes part from the timestamp
+	var minutes = "0" + date.getMinutes();
+	// Seconds part from the timestamp
+	var seconds = "0" + date.getSeconds();
+
+	// Will display time in 10:30:23 format
+	var formattedTime = hours + 'h:' + minutes.substr(-2) + 'm:' + seconds.substr(-2) + 's';
+	return formattedTime;
+}
+
+function formatNumber(number) {
+	return number.toLocaleString(undefined, {maximumFractionDigits:2});
+}
