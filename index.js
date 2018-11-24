@@ -121,7 +121,7 @@ var server = app.listen(port, function() {
 });
 
 function get(url) {
-	https.get(url), function(resp) {
+	https.get(url, function(resp) {
 		var data = '';
 		
 		resp.on('data', function(chunk) {
