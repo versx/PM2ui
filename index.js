@@ -70,7 +70,7 @@ app.get('/test', function(req, res) {
 			  <th>` + element.cpu + `%</th>
 			  <th>` + formatNumber((element.mem / 1024) / 1024) + ` MB</th>
 			  <th>` + formatTime(element.uptime) + `</th>
-			  <th class="` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
+			  <th class="bg-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
 			  <th>
 				<div class="btn-group" role="group" aria-label="...">
 				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
