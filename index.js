@@ -19,19 +19,57 @@ pm2.connect(function(err) {
 });
 
 app.get('/test', function(req, res) {
-    //TODO: Get list of instances or use hard coded values.
     res.sendFile(__dirname + '/index.html');
-    /*
+    //res.render('index', instances, function(err, html) {});
+	
+	var html = `
+<html>
+	<table class="table">
+		<thead>
+		    <th scope="col">Name</th>
+			<th scope="col">PID</th>
+			<th scope="col">CPU</th>
+			<th scope="col">Memory</th>
+		</thead>
+		<tbody>`;
     pm2.list(function(err, processDescriptionList) {
         if (err) {
             console.error(err);
             process.exit(2);
         }
-         
-        var instances = processDescriptionList.map(function(x) { return x.name; });
-        res.render('index', instances, function(err, html) {});
+
+        var instances = processDescriptionList.map(function(x) {
+            return {
+                name:x.name,
+                pid:x.pid,
+                cpu:x.monit.cpu,
+                mem:x.monit.memory,
+                uptime:x.pm2_env.pm_uptime,
+                status:x.pm2_env.status
+            };
+        });
+		
+		instances.forEach(function(element) {
+			html += `
+			<tr>
+				<th scope="row">` + element.name + `</th>
+				<th>` + element.pid + `</th>
+				<th>` + element.cpu + `%</th>
+				<th>` + (element.mem / 1024) + `KB</th>
+			</tr>
+			`;
+		});
+		
+		html += `</tbody>
+	</table>
+</html>`;
+		res.write(html);
+		res.end();
+		
+		//TODO: Write table with control buttons
+        //res.write(JSON.stringify(instances));
+        //res.end();
     });
-    */
 });
 
 app.post('/submit', function(req, res) {
@@ -84,6 +122,7 @@ app.get('/list', function(req, res) {
                 status:x.pm2_env.status
             };
         });
+		//TODO: Write table with control buttons
         res.write(JSON.stringify(instances));
         res.end();
     });
@@ -138,42 +177,3 @@ var server = app.listen(port, function() {
     var host = server.address().address;
     console.log("Listening on http://%s:%s", host, port);
 });
-
-function get(url) {
-	http.get(url, function(resp) {
-		var data = '';
-		
-		resp.on('data', function(chunk) {
-			data += chunk;
-		});
-		
-		resp.on('end', function() {
-			console.log(data);
-			return data;
-		});
-	}).on('error', function(err) {
-		console.log("Error:", err.message);
-	});
-}
-
-function getInstances() {
-    var instances;
-    pm2.list(function(err, processDescriptionList) {
-        if (err) {
-             console.error(err);
-             process.exit(2);
-        }
-         
-        instances = processDescriptionList.map(function(x) {
-            return {
-                name:x.name,
-                pid:x.pid,
-                cpu:x.monit.cpu,
-                mem:x.monit.memory,
-                uptime:x.pm2_env.pm_uptime,
-                status:x.pm2_env.status
-            };
-        });
-    });
-    return instances;
-}
