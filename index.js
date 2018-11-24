@@ -47,8 +47,9 @@ app.post('/submit', function(req, res) {
     } else if (body.hasOwnProperty('restart')) {
         url += "/restart/" + body.instance;
     } else {
-		res.write("Invalid");
-	}
+        res.write("error");
+        res.end();
+    }
 	
 	http.get(url, function(resp) {
 		var data = '';
@@ -59,12 +60,11 @@ app.post('/submit', function(req, res) {
 		resp.on('end', function() {
 			console.log(data);
 			res.write(data);
+			res.end();
 		});
 	}).on('error', function(err) {
 		console.log("Error:", err.message);
 	});
-	
-    res.end();
 });
 
 app.get('/list', function(req, res) {
