@@ -42,6 +42,7 @@ app.get('/test', function(req, res) {
               <th scope="col">Memory</th>
               <th scope="col">Uptime</th>
               <th scope="col">Status</th>
+			  <th scope="col">Action</th>
             </thead>
           <tbody>`;
         pm2.list(function(err, processDescriptionList) {
