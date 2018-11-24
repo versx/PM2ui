@@ -68,7 +68,7 @@ app.get('/test', function(req, res) {
 			  <th scope="row">` + element.name + `</th>
 			  <th>` + element.pid + `</th>
 			  <th>` + element.cpu + `%</th>
-			  <th>` + formatNumber((element.mem / 1024)) + `KB</th>
+			  <th>` + formatNumber((element.mem / 1024) / 1024) + `MB</th>
 			  <th>` + formatTime(element.uptime) + `</th>
 			  <th class="` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
 			  <th>
