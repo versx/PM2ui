@@ -65,19 +65,19 @@ app.get('/test', function(req, res) {
 		instances.forEach(function(element) {
 			html += `
 			<tr>
-			  <th scope="row">` + element.name + `</th>
-			  <th>` + element.pid + `</th>
-			  <th>` + element.cpu + `%</th>
-			  <th>` + formatNumber((element.mem / 1024) / 1024) + ` MB</th>
-			  <th>` + formatTime(element.uptime) + `</th>
-			  <th class="bg-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
-			  <th>
+			  <td scope="row">` + element.name + `</td>
+			  <td>` + element.pid + `</td>
+			  <td>` + element.cpu + `%</td>
+			  <td>` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
+			  <td>` + formatTime(element.uptime) + `</td>
+			  <td class="bg-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</td>
+			  <td>
 				<div class="btn-group" role="group" aria-label="...">
 				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
 				  <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
 				  <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
 				</div>
-			  </th>
+			  </td>
 			</tr>`;
 		});
     		
