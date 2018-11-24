@@ -19,10 +19,9 @@ pm2.connect(function(err) {
 });
 
 app.get('/test', function(req, res) {
-    console.log(req);
+    console.log(req.query);
     //res.sendFile(__dirname + '/index.html');
     //res.render('index', instances, function(err, html) {});
-	var alert = req.params.alert;
     var html = `
 <html>
   <head>
@@ -34,7 +33,7 @@ app.get('/test', function(req, res) {
   </head>
   <body>
     <div class="container-fluid">`;
-    if (req.params.alert !== 'undefined') {
+    if (req.query.alert !== 'undefined') {
 		html += `
       <div class="alert alert-danger" role="alert">
         This is a danger alert—check it out!
