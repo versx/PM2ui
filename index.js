@@ -1,4 +1,4 @@
-const https = require('https');
+var http = require('http');
 var pm2 = require('pm2');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -122,7 +122,7 @@ var server = app.listen(port, function() {
 });
 
 function get(url) {
-	https.get(url, function(resp) {
+	http.get(url, function(resp) {
 		var data = '';
 		
 		resp.on('data', function(chunk) {
