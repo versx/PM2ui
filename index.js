@@ -23,13 +23,13 @@ app.get('/test', function(req, res) {
     res.sendFile(__dirname + '/index.html');
     /*
     pm2.list(function(err, processDescriptionList) {
-         if (err) {
-             console.error(err);
-             process.exit(2);
-         }
+        if (err) {
+            console.error(err);
+            process.exit(2);
+        }
          
-         var instances = processDescriptionList.map(function(x) { return x.name; });
-         res.render('index', instances, function(err, html) {});
+        var instances = processDescriptionList.map(function(x) { return x.name; });
+        res.render('index', instances, function(err, html) {});
     });
     */
 });
@@ -38,11 +38,17 @@ app.post('/submit', function(req, res) {
     var body = req.body;
     console.log(body);
     if (body.hasOwnProperty('start')) {
-         
+        $.get('/start/' + body.instance, null, function(data) {
+			alert(data);
+		});
     } else if (body.hasOwnProperty('stop')) {
-         
+        $.get('/stop/' + body.instance, null, function(data) {
+			alert(data);
+		});
     } else if (body.hasOwnProperty('restart')) {
-         
+        $.get('/restart/' + body.instance, null, function(data) {
+			alert(data);
+		});
     }
     res.end();
 });
@@ -72,15 +78,15 @@ app.get('/list', function(req, res) {
 app.get('/start/:name', function(req, res) {
     console.log("Attempting to start", req.params.name);
     pm2.start(req.params.name, function(err) {
-         if (err) {
-             console.error(err);
-             res.write(err);
-         } else {
-             console.log(req.params.name, "started successfully.");
-             res.write("OK");
-         }
+        if (err) {
+            console.error(err);
+            res.write(err);
+        } else {
+            console.log(req.params.name, "started successfully.");
+            res.write("OK");
+        }
               
-         res.end();
+        res.end();
     });
 });
 
@@ -88,11 +94,11 @@ app.get('/stop/:name', function(req, res) {
     console.log("Attempting to stop", req.params.name);
     pm2.stop(req.params.name, function(err) {
         if (err) {
-             console.error(err);
-             res.write(err);
+            console.error(err);
+            res.write(err);
         } else {
-             console.log(req.params.name, "stopped successfully.");
-             res.write("OK");
+            console.log(req.params.name, "stopped successfully.");
+            res.write("OK");
         }
         
         res.end();
@@ -103,11 +109,11 @@ app.get('/restart/:name', function(req, res) {
     console.log("Attempting to restart", req.params.name);
     pm2.restart(req.params.name, function(err) {
         if (err) {
-             console.error(err);
-             res.write(err);
+            console.error(err);
+            res.write(err);
         } else {
-             console.log(req.params.name, "stopped successfully.");
-             res.write("OK");
+            console.log(req.params.name, "stopped successfully.");
+            res.write("OK");
         }
         
         res.end();
