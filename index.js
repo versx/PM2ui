@@ -39,13 +39,17 @@ app.post('/submit', function(req, res) {
     console.log(body);
 
 	var url = req.protocol + "://" + req.hostname + ":" + port;
+	var result = '';
     if (body.hasOwnProperty('start')) {
-        get(url + '/start/' + body.instance);
+        result = get(url + '/start/' + body.instance);
     } else if (body.hasOwnProperty('stop')) {
-        get(url + '/stop/' + body.instance);
+        result = get(url + '/stop/' + body.instance);
     } else if (body.hasOwnProperty('restart')) {
-        get(url + '/restart/' + body.instance);
-    }
+        result = get(url + '/restart/' + body.instance);
+    } else {
+		result = "Invalid";
+	}
+	res.write(result);
     res.end();
 });
 
@@ -131,7 +135,7 @@ function get(url) {
 		
 		resp.on('end', function() {
 			console.log(data);
-			alert(data);
+			return data;
 		});
 	}).on('error', function(err) {
 		console.log("Error:", err.message);
