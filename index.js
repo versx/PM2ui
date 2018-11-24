@@ -37,7 +37,7 @@ app.get('/test', function(req, res) {
 app.post('/submit', function(req, res) {
     var body = req.body;
     console.log(body);
-	var client = new HttpClient();
+
     if (body.hasOwnProperty('start')) {
         get('/start/' + body.instance);
     } else if (body.hasOwnProperty('stop')) {
