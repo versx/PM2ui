@@ -37,17 +37,18 @@ app.get('/test', function(req, res) {
 app.post('/submit', function(req, res) {
     var body = req.body;
     console.log(body);
+	var client = new HttpClient();
     if (body.hasOwnProperty('start')) {
-        $.get('/start/' + body.instance, null, function(data) {
-			alert(data);
+        client.get('/start/' + body.instance, function(response) {
+			alert(response);
 		});
     } else if (body.hasOwnProperty('stop')) {
-        $.get('/stop/' + body.instance, null, function(data) {
-			alert(data);
+        client.get('/stop/' + body.instance, function(response) {
+			alert(response);
 		});
     } else if (body.hasOwnProperty('restart')) {
-        $.get('/restart/' + body.instance, null, function(data) {
-			alert(data);
+        client.get('/restart/' + body.instance, function(response) {
+			alert(response);
 		});
     }
     res.end();
