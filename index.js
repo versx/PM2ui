@@ -23,6 +23,7 @@ app.get('/test', function(req, res) {
     //res.render('index', instances, function(err, html) {});
 	
 	var html = `
+<html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Latest compiled and minified CSS -->
@@ -82,6 +83,7 @@ app.get('/test', function(req, res) {
 		
 		html += `</tbody>
 	</table>
+  </div>
 </html>`;
 		res.write(html);
 		res.end();
