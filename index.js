@@ -33,11 +33,8 @@ app.get('/test', function(req, res) {
   </head>
   <body>
     <div class="container-fluid">`;
-    if (req.query.alert !== 'undefined') {
-		html += `
-      <div class="alert alert-danger" role="alert">
-        This is a danger alert—check it out!
-      </div>`;
+    if (req.query.status !== undefined) {
+		html += `<div class="alert alert-` + (req.query.status === '1' ? "danger" : "success") + `" role="alert">` + req.query.msg + `</div>`;
     }
 	html += `
       <div class="table-responsive-md">
@@ -167,7 +164,7 @@ app.get('/start/:name', function(req, res) {
             res.write("OK");
         }
         
-        res.redirect('/test/?alert');
+        res.redirect('/test/?status&msg=' + "");
         res.end();
     });
 });
@@ -183,7 +180,7 @@ app.get('/stop/:name', function(req, res) {
             res.write("OK");
         }
         
-		res.redirect('/test/?alert');
+		res.redirect('/test/?status&msg=' + "");
         res.end();
     });
 });
@@ -199,7 +196,7 @@ app.get('/restart/:name', function(req, res) {
             res.write("OK");
         }
         
-		res.redirect('/test/?alert');
+		res.redirect('/test/?status&msg=' + "");
         res.end();
     });
 });
