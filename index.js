@@ -39,17 +39,21 @@ app.post('/submit', function(req, res) {
     console.log(body);
 
 	var url = req.protocol + "://" + req.hostname + ":" + port;
-	var result = '';
     if (body.hasOwnProperty('start')) {
-        result = get(url + '/start/' + body.instance);
+        $.get(url + "/start/" + body.instance, function(data, status) {
+			res.write("${data} with status ${status}");
+		});
     } else if (body.hasOwnProperty('stop')) {
-        result = get(url + '/stop/' + body.instance);
+        $.get(url + "/stop/" + body.instance, function(data, status) {
+			res.write("${data} with status ${status}");
+		});
     } else if (body.hasOwnProperty('restart')) {
-        result = get(url + '/restart/' + body.instance);
+        $.get(url + "/restart/" + body.instance, function(data, status) {
+			res.write("${data} with status ${status}");
+		});
     } else {
-		result = "Invalid";
+		res.write("Invalid");
 	}
-	res.write(result);
     res.end();
 });
 
@@ -124,23 +128,6 @@ var server = app.listen(port, function() {
     var host = server.address().address;
     console.log("Listening on http://%s:%s", host, port);
 });
-
-function get(url) {
-	http.get(url, function(resp) {
-		var data = '';
-		
-		resp.on('data', function(chunk) {
-			data += chunk;
-		});
-		
-		resp.on('end', function() {
-			console.log(data);
-			return data;
-		});
-	}).on('error', function(err) {
-		console.log("Error:", err.message);
-	});
-}
 
 function getInstances() {
     var instances;
