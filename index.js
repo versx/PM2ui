@@ -38,22 +38,32 @@ app.post('/submit', function(req, res) {
     var body = req.body;
     console.log(body);
 
-	var url = req.protocol + "://" + req.hostname + ":" + port;
+	var baseUrl = req.protocol + "://" + req.hostname + ":" + port;
+	var url = baseUrl;
     if (body.hasOwnProperty('start')) {
-        $.get(url + "/start/" + body.instance, function(data, status) {
-			res.write("${data} with status ${status}");
-		});
+        url += "/start/" + body.instance;
     } else if (body.hasOwnProperty('stop')) {
-        $.get(url + "/stop/" + body.instance, function(data, status) {
-			res.write("${data} with status ${status}");
-		});
+        url += "/stop/" + body.instance;
     } else if (body.hasOwnProperty('restart')) {
-        $.get(url + "/restart/" + body.instance, function(data, status) {
-			res.write("${data} with status ${status}");
-		});
+        url += "/restart/" + body.instance;
     } else {
 		res.write("Invalid");
 	}
+	
+	http.get(url, function(resp) {
+		var data = '';
+		resp.on('data', function(chunk) {
+			data += chunk;
+		});
+		
+		resp.on('end', function() {
+			console.log(data);
+			res.write(data);
+		});
+	}).on('error', function(err) {
+		console.log("Error:", err.message);
+	});
+	
     res.end();
 });
 
@@ -128,6 +138,23 @@ var server = app.listen(port, function() {
     var host = server.address().address;
     console.log("Listening on http://%s:%s", host, port);
 });
+
+function get(url) {
+	http.get(url, function(resp) {
+		var data = '';
+		
+		resp.on('data', function(chunk) {
+			data += chunk;
+		});
+		
+		resp.on('end', function() {
+			console.log(data);
+			return data;
+		});
+	}).on('error', function(err) {
+		console.log("Error:", err.message);
+	});
+}
 
 function getInstances() {
     var instances;
