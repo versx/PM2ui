@@ -38,7 +38,7 @@ app.post('/submit', function(req, res) {
     var body = req.body;
     console.log(body);
 
-	var url = req.protocol + "://" + req.hostname + port;
+	var url = req.protocol + "://" + req.hostname + ":" + port;
     if (body.hasOwnProperty('start')) {
         get(url + '/start/' + body.instance);
     } else if (body.hasOwnProperty('stop')) {
@@ -130,7 +130,7 @@ function get(url) {
 		});
 		
 		resp.on('end', function() {
-			console.log(JSON.parse(data).explanation);
+			console.log(data);
 			alert(data);
 		});
 	}).on('error', function(err) {
