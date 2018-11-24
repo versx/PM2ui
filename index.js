@@ -65,11 +65,13 @@ app.get('/test', function(req, res) {
 				<th>` + element.pid + `</th>
 				<th>` + element.cpu + `%</th>
 				<th>` + (element.mem / 1024) + `KB</th>
-				<div class="btn-group" role="group" aria-label="...">
-				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
-				  <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
-				  <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
-				</div>
+				<th>
+					<div class="btn-group" role="group" aria-label="...">
+						<a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
+						<a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
+						<a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
+					</div>
+				</th>
 			</tr>
 			`;
 		});
