@@ -32,56 +32,58 @@ app.get('/test', function(req, res) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
-    <div class="table-responsive-md">
-      <table class="table table-striped table-bordered table-hover table-responsive">
-        <thead class="thead-dark">
-          <th scope="col">Name</th>
-            <th scope="col">PID</th>
-            <th scope="col">CPU</th>
-            <th scope="col">Memory</th>
-            <th scope="col">Uptime</th>
-            <th scope="col">Status</th>
-          </thead>
-        <tbody>`;
-      pm2.list(function(err, processDescriptionList) {
-          if (err) {
-              console.error(err);
-              process.exit(2);
-          }
-  
-          var instances = processDescriptionList.map(function(x) {
-              return {
-                  name:x.name,
-                  pid:x.pid,
-                  cpu:x.monit.cpu,
-                  mem:x.monit.memory,
-                  uptime:x.pm2_env.pm_uptime,
-                  status:x.pm2_env.status
-              };
-          });
-  		
-          instances.forEach(function(element) {
-              html += `
-              <tr>
-                <th scope="row">` + element.name + `</th>
-                <th>` + element.pid + `</th>
-                <th>` + element.cpu + `%</th>
-                <th>` + formatNumber((element.mem / 1024) / 1024) + ` MB</th>
-                <th>` + formatTime(element.uptime) + `</th>
-                <th class="` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
-                <th>
-                  <div class="btn-group" role="group" aria-label="...">
-                    <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
-                    <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
-                    <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
-                  </div>
-                </th>
-              </tr>`;
-          });
-  		
-          html += `</tbody>
-      </table>
-    </div>
+    <div class="container">
+      <div class="table-responsive-md">
+        <table class="table table-striped table-bordered table-hover table-responsive">
+          <thead class="thead-dark">
+            <th scope="col">Name</th>
+              <th scope="col">PID</th>
+              <th scope="col">CPU</th>
+              <th scope="col">Memory</th>
+              <th scope="col">Uptime</th>
+              <th scope="col">Status</th>
+            </thead>
+          <tbody>`;
+        pm2.list(function(err, processDescriptionList) {
+            if (err) {
+                console.error(err);
+                process.exit(2);
+            }
+    
+            var instances = processDescriptionList.map(function(x) {
+                return {
+                    name:x.name,
+                    pid:x.pid,
+                    cpu:x.monit.cpu,
+                    mem:x.monit.memory,
+                    uptime:x.pm2_env.pm_uptime,
+                    status:x.pm2_env.status
+                };
+            });
+    		
+            instances.forEach(function(element) {
+                html += `
+                <tr>
+                  <th scope="row">` + element.name + `</th>
+                  <th>` + element.pid + `</th>
+                  <th>` + element.cpu + `%</th>
+                  <th>` + formatNumber((element.mem / 1024) / 1024) + ` MB</th>
+                  <th>` + formatTime(element.uptime) + `</th>
+                  <th class="` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
+                  <th>
+                    <div class="btn-group" role="group" aria-label="...">
+                      <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
+                      <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
+                      <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
+                    </div>
+                  </th>
+                </tr>`;
+            });
+    		
+            html += `</tbody>
+        </table>
+      </div>
+    </div<
   </body>
 </html>`;
         res.write(html);
