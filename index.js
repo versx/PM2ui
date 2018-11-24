@@ -38,12 +38,13 @@ app.post('/submit', function(req, res) {
     var body = req.body;
     console.log(body);
 
+	var url = req.protocol + "://" + req.hostname + port;
     if (body.hasOwnProperty('start')) {
-        get('/start/' + body.instance);
+        get(url + '/start/' + body.instance);
     } else if (body.hasOwnProperty('stop')) {
-        get('/stop/' + body.instance);
+        get(url + '/stop/' + body.instance);
     } else if (body.hasOwnProperty('restart')) {
-        get('/restart/' + body.instance);
+        get(url + '/restart/' + body.instance);
     }
     res.end();
 });
