@@ -33,6 +33,9 @@ app.get('/test', function(req, res) {
   </head>
   <body>
     <div class="container-fluid">
+      <div class="alert alert-danger" role="alert">
+        This is a danger alert—check it out!
+      </div>
       <div class="table-responsive-md">
         <table class="table table-striped table-bordered table-hover">
           <thead class="thead-dark">
@@ -159,7 +162,8 @@ app.get('/start/:name', function(req, res) {
             console.log(req.params.name, "started successfully.");
             res.write("OK");
         }
-              
+        
+        res.redirect('back');
         res.end();
     });
 });
@@ -175,6 +179,7 @@ app.get('/stop/:name', function(req, res) {
             res.write("OK");
         }
         
+		res.redirect('back');
         res.end();
     });
 });
@@ -186,10 +191,11 @@ app.get('/restart/:name', function(req, res) {
             console.error(err);
             res.write(err);
         } else {
-            console.log(req.params.name, "stopped successfully.");
+            console.log(req.params.name, "restarted successfully.");
             res.write("OK");
         }
         
+		res.redirect('back');
         res.end();
     });
 });
