@@ -21,7 +21,7 @@ pm2.connect(function(err) {
 app.get('/test', function(req, res) {
     //res.sendFile(__dirname + '/index.html');
     //res.render('index', instances, function(err, html) {});
-
+	var alert = req.params.alert;
     var html = `
 <html>
   <head>
@@ -32,10 +32,14 @@ app.get('/test', function(req, res) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container-fluid">`;
+    if (req.params.alert !== 'undefined') {
+		html += `
       <div class="alert alert-danger" role="alert">
         This is a danger alert—check it out!
-      </div>
+      </div>`;
+    }
+	html += `
       <div class="table-responsive-md">
         <table class="table table-striped table-bordered table-hover">
           <thead class="thead-dark">
@@ -73,7 +77,7 @@ app.get('/test', function(req, res) {
 			  <td>` + element.cpu + `%</td>
 			  <td>` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
 			  <td>` + formatTime(element.uptime) + `</td>
-			  <td class="bg-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</td>
+			  <td class="text-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</td>
 			  <td>
 				<div class="btn-group" role="group" aria-label="...">
 				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
@@ -163,7 +167,7 @@ app.get('/start/:name', function(req, res) {
             res.write("OK");
         }
         
-        res.redirect('back');
+        res.redirect('/test/?alert');
         res.end();
     });
 });
@@ -179,7 +183,7 @@ app.get('/stop/:name', function(req, res) {
             res.write("OK");
         }
         
-		res.redirect('back');
+		res.redirect('/test/?alert');
         res.end();
     });
 });
@@ -195,7 +199,7 @@ app.get('/restart/:name', function(req, res) {
             res.write("OK");
         }
         
-		res.redirect('back');
+		res.redirect('/test/?alert');
         res.end();
     });
 });
