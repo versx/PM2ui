@@ -34,7 +34,7 @@ app.get('/test', function(req, res) {
   <body>
     <div class="container">
       <div class="table-responsive-sm">
-        <table class="table table-striped table-bordered table-hover table-responsive">
+        <table class="table table-striped table-bordered table-hover">
           <thead class="thead-dark">
             <th scope="col">Name</th>
               <th scope="col">PID</th>
