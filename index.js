@@ -19,7 +19,7 @@ pm2.connect(function(err) {
 });
 
 app.get('/test', function(req, res) {
-    console.log(req.params);
+    console.log(req);
     //res.sendFile(__dirname + '/index.html');
     //res.render('index', instances, function(err, html) {});
 	var alert = req.params.alert;
