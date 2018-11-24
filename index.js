@@ -65,6 +65,8 @@ app.get('/test', function(req, res) {
 				<th>` + element.pid + `</th>
 				<th>` + element.cpu + `%</th>
 				<th>` + (element.mem / 1024) + `KB</th>
+				<th>` + element.uptime + `</th>
+				<th>` + element.status + `</th>
 				<th>
 					<div class="btn-group" role="group" aria-label="...">
 						<a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
