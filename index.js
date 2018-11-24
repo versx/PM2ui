@@ -23,26 +23,27 @@ app.get('/test', function(req, res) {
     //res.render('index', instances, function(err, html) {});
 	
 	var html = `
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	
-<html>
-	<table class="table">
-		<thead>
-		    <th scope="col">Name</th>
-			<th scope="col">PID</th>
-			<th scope="col">CPU</th>
-			<th scope="col">Memory</th>
-			<th scope="col">Uptime</th>
-			<th scope="col">Status</th>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <div class="table-responsive">
+    <table class="table">
+	  <thead>
+		<th scope="col">Name</th>
+		  <th scope="col">PID</th>
+		  <th scope="col">CPU</th>
+		  <th scope="col">Memory</th>
+		  <th scope="col">Uptime</th>
+		  <th scope="col">Status</th>
 		</thead>
-		<tbody>`;
+	  <tbody>`;
     pm2.list(function(err, processDescriptionList) {
         if (err) {
             console.error(err);
@@ -63,21 +64,20 @@ app.get('/test', function(req, res) {
 		instances.forEach(function(element) {
 			html += `
 			<tr>
-				<th scope="row">` + element.name + `</th>
-				<th>` + element.pid + `</th>
-				<th>` + element.cpu + `%</th>
-				<th>` + (element.mem / 1024) + `KB</th>
-				<th>` + element.uptime + `</th>
-				<th class="` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
-				<th>
-					<div class="btn-group" role="group" aria-label="...">
-						<a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
-						<a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
-						<a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
-					</div>
-				</th>
-			</tr>
-			`;
+			  <th scope="row">` + element.name + `</th>
+			  <th>` + element.pid + `</th>
+			  <th>` + element.cpu + `%</th>
+			  <th>` + (element.mem / 1024) + `KB</th>
+			  <th>` + element.uptime + `</th>
+			  <th class="` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</th>
+			  <th>
+			    <div class="btn-group" role="group" aria-label="...">
+				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
+				  <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
+				  <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
+				</div>
+			  </th>
+			</tr>`;
 		});
 		
 		html += `</tbody>
