@@ -95,11 +95,11 @@ function viewProcesses(req, res) {
     </nav>
     <div class="container-fluid">
         <p><h1 class="text-center">Process Manager 2 UI</h1></p>
-		<span class="float-right"><input type="checkbox">&nbsp;Auto-refresh</input></span>`;
+        <span class="float-right"><input type="checkbox">&nbsp;Auto-refresh</input></span>`;
         if (req.query.status !== undefined) {
-		    html += `<div class="alert alert-` + (req.query.status === '1' ? "danger" : "success") + `" role="alert">` + req.query.msg + `</div>`;
+            html += `<div class="alert alert-` + (req.query.status === '1' ? "danger" : "success") + `" role="alert">` + req.query.msg + `</div>`;
         }
-	    html += `
+        html += `
       <div class="table-responsive-md">
         <table class="table table-striped table-bordered table-hover">
           <thead class="thead">
@@ -114,37 +114,37 @@ function viewProcesses(req, res) {
             <th class="text-center">Auto-Restart</th>
             <th class="text-center">Uptime</th>
             <th class="text-center">Status</th>
-	        <th class="text-center">Action</th>
+            <th class="text-center">Action</th>
           </thead>
           <tbody>`;
 		
-		instances.forEach(function(element) {
-			html += `
-			<tr>
-			  <td scope="row" class="text-center">` + element.name + `</td>
-			  <td class="text-center">` + element.pid + `</td>
-			  <td class="text-center">` + element.cpu + `%</td>
-			  <td class="text-center">` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
-			  <td class="text-center">` + formatNumber(element.instances) + `</td>
-			  <td class="text-center">` + formatNumber(element.restarts) + `</td>
-			  <td class="text-center">` + formatNumber(element.unstable_restarts) + `</td>
-			  <td class="text-center">` + (element.watch ? "Yes" : "No") + `</td>
-			  <td class="text-center">` + (element.autorestart ? "Yes" : "No") + `</td>
-			  <td class="text-center">` + formatTime(element.uptime) + `</td>
-			  <td class="text-` + (element.status === "online" ? "success" : "danger") + ` text-center">` + element.status + `</td>
-			  <td>
-				<div class="btn-group" role="group" aria-label="...">
-				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
-				  <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
-				  <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
-				  <a class="btn btn-primary btn-default" href="/logs/` + element.name + `">View Logs</a>
-				</div>
-			  </td>
-			</tr>`;
-		});
+        instances.forEach(function(element) {
+            html += `
+            <tr>
+              <td scope="row" class="text-center">` + element.name + `</td>
+              <td class="text-center">` + element.pid + `</td>
+              <td class="text-center">` + element.cpu + `%</td>
+              <td class="text-center">` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
+              <td class="text-center">` + formatNumber(element.instances) + `</td>
+              <td class="text-center">` + formatNumber(element.restarts) + `</td>
+              <td class="text-center">` + formatNumber(element.unstable_restarts) + `</td>
+              <td class="text-center">` + (element.watch ? "Yes" : "No") + `</td>
+              <td class="text-center">` + (element.autorestart ? "Yes" : "No") + `</td>
+              <td class="text-center">` + formatTime(element.uptime) + `</td>
+              <td class="text-` + (element.status === "online" ? "success" : "danger") + ` text-center">` + element.status + `</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="...">
+                  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
+                  <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
+                  <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
+                  <a class="btn btn-primary btn-default" href="/logs/` + element.name + `">View Logs</a>
+                </div>
+              </td>
+            </tr>`;
+        });
     		
         html += `
-		  </tbody>
+          </tbody>
         </table>
       </div>
     </div<
