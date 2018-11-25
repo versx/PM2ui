@@ -164,7 +164,7 @@ app.get('/start/:name', function(req, res) {
             res.write("OK");
         }
         
-        res.redirect('/test/?status&msg=' + "");
+        res.location('/test/?status&msg=' + req.params.name + " started successfully.");
         res.end();
     });
 });
@@ -180,7 +180,7 @@ app.get('/stop/:name', function(req, res) {
             res.write("OK");
         }
         
-		res.redirect('/test/?status&msg=' + "");
+		res.location('/test/?status&msg=' + req.params.name + " stopped successfully.");
         res.end();
     });
 });
@@ -196,7 +196,7 @@ app.get('/restart/:name', function(req, res) {
             res.write("OK");
         }
         
-		res.redirect('/test/?status&msg=' + "");
+		res.location('/test/?status&msg=' + req.params.name + " restarted successfully.");
         res.end();
     });
 });
