@@ -1,6 +1,7 @@
-var http = require('http');
-var pm2 = require('pm2');
-var express = require('express');
+var http       = require('http');
+var pm2        = require('pm2');
+var express    = require('express');
+var fs         = require('fs');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -95,6 +96,7 @@ app.get('/test', function(req, res) {
 				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
 				  <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
 				  <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
+				  <a class="btn btn-primary btn-default" href="/logs/` + element.name + `">View Logs</a>
 				</div>
 			  </td>
 			</tr>`;
@@ -170,6 +172,25 @@ app.get('/list', function(req, res) {
 
         res.write(JSON.stringify(instances));
         res.end();
+    });
+});
+
+app.get('/logs/:name', function(req, res) {
+    var name = req.params.name;
+    pm2.describe(name, function(err, processDescription) {
+        if (err) {
+            console.error(err);
+            process.exit(2);
+        }
+		
+        var out_log = processDescription.pm2_env.pm_out_log_path;
+        var err_log = processDescription.pm2_env.pm_err_log_path;
+ 
+        fs.readFile(out_log, 'utf8', function(err, contents) {
+            console.log(contents);
+			res.write(contents);
+			res.end();
+        });
     });
 });
 
