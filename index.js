@@ -141,7 +141,7 @@ function viewProcesses(req, res) {
                   <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
                   <a class="btn btn-primary btn-default" href="/logs/` + element.name + `">View Logs</a>
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#` + element.out_log_path + `">Logs</button>
-				  ` + createLogModel() + `
+				  ` + createLogModel(element.out_log_path) + `
                 </div>
               </td>
             </tr>`;
