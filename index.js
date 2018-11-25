@@ -70,9 +70,9 @@ function viewProcesses(req, res) {
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<link rel="stylesheet">
-table th.text-center, table td.text-center { 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"></link>
+	<link rel="stylesheet" type="text/css">
+th, td { 
     text-align: center;
 }
 	</link>
