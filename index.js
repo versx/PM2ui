@@ -149,7 +149,7 @@ function viewProcesses(req, res) {
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">` + element.name + ` Logs</h5>
-					<h2>` + element.out_log_path + `</h2>
+					<h7` + element.out_log_path + `</h7>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
