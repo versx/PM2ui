@@ -183,6 +183,8 @@ app.get('/logs/:name', function(req, res) {
             process.exit(2);
         }
 		
+		console.log(processDescription);
+		
         var out_log = processDescription.pm2_env.pm_out_log_path;
         var err_log = processDescription.pm2_env.pm_err_log_path;
  
