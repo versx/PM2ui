@@ -156,15 +156,17 @@ app.get('/list', function(req, res) {
 app.get('/start/:name', function(req, res) {
     console.log("Attempting to start", req.params.name);
     pm2.start(req.params.name, function(err) {
+        var url = '/test/?status&msg=';
         if (err) {
             console.error(err);
-            res.write(err);
+            url += err;
         } else {
-            console.log(req.params.name, "started successfully.");
-            //res.write("OK");
-            res.redirect('/test/?status&msg=' + req.params.name + " started successfully.");
+            var successMsg = req.params.name + " started successfully.";
+            console.log(successMsg);
+            url += successMsg;
         }
-
+        
+        res.redirect(url);
         res.end();
     });
 });
@@ -172,15 +174,17 @@ app.get('/start/:name', function(req, res) {
 app.get('/stop/:name', function(req, res) {
     console.log("Attempting to stop", req.params.name);
     pm2.stop(req.params.name, function(err) {
+        var url = '/test/?status&msg=';
         if (err) {
             console.error(err);
-            res.write(err);
+            url += err;
         } else {
-            console.log(req.params.name, "stopped successfully.");
-            //res.write("OK");
-            res.redirect('/test/?status&msg=' + req.params.name + " stopped successfully.");
+            var successMsg = req.params.name + " stopped successfully.";
+            console.log(successMsg);
+            url += successMsg;
         }
-
+        
+        res.redirect(url);
         res.end();
     });
 });
@@ -188,15 +192,17 @@ app.get('/stop/:name', function(req, res) {
 app.get('/restart/:name', function(req, res) {
     console.log("Attempting to restart", req.params.name);
     pm2.restart(req.params.name, function(err) {
+        var url = '/test/?status&msg=';
         if (err) {
             console.error(err);
-            res.write(err);
+            url += err;
         } else {
-            console.log(req.params.name, "restarted successfully.");
-            //res.write("OK");
-            res.redirect('/test/?status&msg=' + req.params.name + " restarted successfully.");
+            var successMsg = req.params.name + " restarted successfully.";
+            console.log(successMsg);
+            url += successMsg;
         }
         
+        res.redirect(url);
         res.end();
     });
 });
