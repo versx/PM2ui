@@ -140,11 +140,11 @@ function viewProcesses(req, res) {
                   <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
                   <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
                   <a class="btn btn-primary btn-default" href="/logs/` + element.name + `">View Logs</a>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#` + element.out_log_path + `">Logs</button>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#` + element.name + `">Logs</button>
                 </div>
               </td>
             </tr>`;
-            html += createLogModal(element.out_log_path);
+            html += createLogModal(element.name, element.out_log_path);
         });
     		
         html += `
@@ -293,9 +293,9 @@ function submitChanges(req, res) {
     });
 }
 
-function createLogModal(log_path) {
+function createLogModal(id, log_path) {
     var html = `
-    <div class="modal fade" id="` + log_path + `" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="` + id + `" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
