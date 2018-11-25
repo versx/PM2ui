@@ -62,6 +62,8 @@ function viewProcesses(req, res) {
                 uptime:x.pm2_env.pm_uptime,
                 watch:x.pm2_env.watch,
                 autorestart:x.pm2_env.autorestart,
+				out_log_path:x.pm2_env.pm_out_log_path,
+				err_log_path:x.pm2_env.pm_err_log_path,
                 status:x.pm2_env.status
             };
         });
@@ -138,6 +140,8 @@ function viewProcesses(req, res) {
                   <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
                   <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
                   <a class="btn btn-primary btn-default" href="/logs/` + element.name + `">View Logs</a>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#` + element.out_log_path + `">Logs</button>
+				  ` + createLogModel() + `
                 </div>
               </td>
             </tr>`;
@@ -286,6 +290,31 @@ function submitChanges(req, res) {
         });
     }).on('error', function(err) {
         console.log("Error:", err.message);
+    });
+}
+
+function createLogModel(log_path) {
+    fs.readFile(log_path, 'utf8', function(err, contents) {
+        var html = `
+    <div class="modal fade" id="log_path" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">` + log_path + `</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><textarea>` + contents + `</textarea></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+        return html;
     });
 }
 
