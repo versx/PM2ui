@@ -224,7 +224,7 @@ function viewLogs(req, res) {
         var out_log = processDescription[0].pm2_env.pm_out_log_path;
         var err_log = processDescription[0].pm2_env.pm_err_log_path;
  
-        fs.readFile(err_log, 'utf8', function(err, contents) {
+        fs.readFile(out_log, 'utf8', function(err, contents) {
             console.log(contents);
 			res.write(contents);
 			res.end();
