@@ -167,7 +167,7 @@ function listProcesses(req, res) {
 function startProcess(req, res) {
     console.log("Attempting to start", req.params.name);
     pm2.start(req.params.name, function(err) {
-        var url = root + '/?status&msg=';
+        var url = (root === '/' ? "" : root) + '/?status&msg=';
         if (err) {
             console.error(err);
             url += err;
@@ -185,7 +185,7 @@ function startProcess(req, res) {
 function stopProcess(req, res) {
     console.log("Attempting to stop", req.params.name);
     pm2.stop(req.params.name, function(err) {
-        var url = root + '/?status&msg=';
+        var url = (root === '/' ? "" : root) + '/?status&msg=';
         if (err) {
             console.error(err);
             url += err;
@@ -203,7 +203,7 @@ function stopProcess(req, res) {
 function restartProcess(req, res) {
     console.log("Attempting to restart", req.params.name);
     pm2.restart(req.params.name, function(err) {
-        var url = root + '/?status&msg=';
+        var url = (root === '/' ? "" : root) + '/?status&msg=';
         if (err) {
             console.error(err);
             url += err;
