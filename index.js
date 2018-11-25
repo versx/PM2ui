@@ -102,17 +102,17 @@ function viewProcesses(req, res) {
 		instances.forEach(function(element) {
 			html += `
 			<tr>
-			  <td scope="row">` + element.name + `</td>
-			  <td>` + element.pid + `</td>
-			  <td>` + element.cpu + `%</td>
-			  <td>` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
-			  <td>` + formatNumber(element.instances) + `</td>
-			  <td>` + formatNumber(element.restarts) + `</td>
-			  <td>` + formatNumber(element.unstable_restarts) + `</td>
-			  <td>` + (element.watch ? "Yes" : "No") + `</td>
-			  <td>` + (element.autorestart ? "Yes" : "No") + `</td>
-			  <td>` + formatTime(element.uptime) + `</td>
-			  <td class="text-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</td>
+			  <td scope="row" class="text-center">` + element.name + `</td>
+			  <td class="text-center">` + element.pid + `</td>
+			  <td class="text-center">` + element.cpu + `%</td>
+			  <td class="text-center">` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
+			  <td class="text-center">` + formatNumber(element.instances) + `</td>
+			  <td class="text-center">` + formatNumber(element.restarts) + `</td>
+			  <td class="text-center">` + formatNumber(element.unstable_restarts) + `</td>
+			  <td class="text-center">` + (element.watch ? "Yes" : "No") + `</td>
+			  <td class="text-center">` + (element.autorestart ? "Yes" : "No") + `</td>
+			  <td class="text-center">` + formatTime(element.uptime) + `</td>
+			  <td class="text-` + (element.status === "online" ? "success" : "danger") + ` text-center">` + element.status + `</td>
 			  <td>
 				<div class="btn-group" role="group" aria-label="...">
 				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
