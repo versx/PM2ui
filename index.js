@@ -63,8 +63,8 @@ function viewProcesses(req, res) {
                 watch:x.pm2_env.watch,
                 autorestart:x.pm2_env.autorestart,
                 status:x.pm2_env.status
-			};
-		});
+            };
+        });
 
         var html = `
 <html>
