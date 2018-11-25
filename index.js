@@ -145,7 +145,7 @@ function viewProcesses(req, res) {
               </td>
             </tr>
             <div class="modal fade" id="` + element.name + `" tabindex="-1" role="dialog">
-              <div class="modal-dialog" role="document">
+              <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">` + element.name + ` Logs</h5>
@@ -154,7 +154,7 @@ function viewProcesses(req, res) {
                     </button>
                   </div>
                   <div class="modal-body">
-                    <p><textarea>`;
+                    <p><textarea class="form-control" rows="10">`;
             fs.readFile(element.out_log_path, 'utf8', function(err, contents) {
                 html += contents;
             });
