@@ -162,7 +162,7 @@ app.get('/start/:name', function(req, res) {
         } else {
             console.log(req.params.name, "started successfully.");
             //res.write("OK");
-            res.location('/test/?status&msg=' + req.params.name + " started successfully.");
+            res.redirect('/test/?status&msg=' + req.params.name + " started successfully.");
         }
 
         res.end();
@@ -178,7 +178,7 @@ app.get('/stop/:name', function(req, res) {
         } else {
             console.log(req.params.name, "stopped successfully.");
             //res.write("OK");
-            res.location('/test/?status&msg=' + req.params.name + " stopped successfully.");
+            res.redirect('/test/?status&msg=' + req.params.name + " stopped successfully.");
         }
 
         res.end();
@@ -194,7 +194,7 @@ app.get('/restart/:name', function(req, res) {
         } else {
             console.log(req.params.name, "restarted successfully.");
             //res.write("OK");
-            res.location('/test/?status&msg=' + req.params.name + " restarted successfully.");
+            res.redirect('/test/?status&msg=' + req.params.name + " restarted successfully.");
         }
         
         res.end();
