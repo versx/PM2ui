@@ -94,7 +94,8 @@ function viewProcesses(req, res) {
       </div>
     </nav>
     <div class="container-fluid">
-        <p><h1 class="text-center">Process Manager 2 UI</h1></p>`;
+        <p><h1 class="text-center">Process Manager 2 UI</h1></p>
+		<span class="float-right"><input type="checkbox">&nbsp;Auto-refresh</input></span>`;
         if (req.query.status !== undefined) {
 		    html += `<div class="alert alert-` + (req.query.status === '1' ? "danger" : "success") + `" role="alert">` + req.query.msg + `</div>`;
         }
