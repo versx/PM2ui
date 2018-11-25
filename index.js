@@ -294,8 +294,7 @@ function submitChanges(req, res) {
 }
 
 function createLogModal(log_path) {
-    fs.readFile(log_path, 'utf8', function(err, contents) {
-        var html = `
+    var html = `
     <div class="modal fade" id="log_path" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -306,7 +305,11 @@ function createLogModal(log_path) {
             </button>
           </div>
           <div class="modal-body">
-            <p><textarea>` + contents + `</textarea></p>
+            <p><textarea>`;
+    fs.readFile(log_path, 'utf8', function(err, contents) {
+        html += contents;
+    });
+	html += `</textarea></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
