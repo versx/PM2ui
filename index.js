@@ -155,7 +155,7 @@ function viewProcesses(req, res) {
                   </div>
                   <div class="modal-body">
                     <p><textarea class="form-control" rows="10">`;
-            fs.readFileSync(element.out_log_path, 'utf8', function(err, contents) {
+            fs.readFile(element.out_log_path, 'utf8', function(err, contents) {
                 html += contents;
             });
             html += `</textarea></p>
