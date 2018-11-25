@@ -76,6 +76,23 @@ function viewProcesses(req, res) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <div class="container-fluid">`;
         if (req.query.status !== undefined) {
 		    html += `<div class="alert alert-` + (req.query.status === '1' ? "danger" : "success") + `" role="alert">` + req.query.msg + `</div>`;
@@ -84,19 +101,19 @@ function viewProcesses(req, res) {
       <div class="table-responsive-md">
         <table class="table table-striped table-bordered table-hover">
           <thead class="thead-dark">
-              <th scope="col" class="text-center">Name</th>
-              <th class="text-center">PID</th>
-              <th class="text-center">CPU</th>
-              <th class="text-center">Memory</th>
-			  <th class="text-center">Instances</th>
-			  <th class="text-center">Restarts</th>
-			  <th class="text-center">Unstable Restarts</th>
-			  <th class="text-center">Watch</th>
-			  <th class="text-center">Auto-Restart</th>
-              <th class="text-center">Uptime</th>
-              <th class="text-center">Status</th>
-			  <th class="text-center">Action</th>
-            </thead>
+            <th scope="col" class="text-center">Name</th>
+            <th class="text-center">PID</th>
+            <th class="text-center">CPU</th>
+            <th class="text-center">Memory</th>
+            <th class="text-center">Instances</th>
+            <th class="text-center">Restarts</th>
+            <th class="text-center">Unstable Restarts</th>
+            <th class="text-center">Watch</th>
+            <th class="text-center">Auto-Restart</th>
+            <th class="text-center">Uptime</th>
+            <th class="text-center">Status</th>
+	        <th class="text-center">Action</th>
+          </thead>
           <tbody>`;
 		
 		instances.forEach(function(element) {
