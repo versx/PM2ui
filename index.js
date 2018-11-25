@@ -77,7 +77,7 @@ function viewProcesses(req, res) {
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#">PM2ui</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -93,14 +93,15 @@ function viewProcesses(req, res) {
         </ul>
       </div>
     </nav>
-    <div class="container-fluid">`;
+    <div class="container-fluid">
+        <p>Process Manager 2 UI</p>`;
         if (req.query.status !== undefined) {
 		    html += `<div class="alert alert-` + (req.query.status === '1' ? "danger" : "success") + `" role="alert">` + req.query.msg + `</div>`;
         }
 	    html += `
       <div class="table-responsive-md">
         <table class="table table-striped table-bordered table-hover">
-          <thead class="thead-dark">
+          <thead class="thead">
             <th scope="col" class="text-center">Name</th>
             <th class="text-center">PID</th>
             <th class="text-center">CPU</th>
