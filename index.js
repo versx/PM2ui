@@ -183,10 +183,10 @@ app.get('/logs/:name', function(req, res) {
             process.exit(2);
         }
 		
-		console.log(processDescription);
+		console.log(processDescription[0]);
 		
-        var out_log = processDescription.pm2_env.pm_out_log_path;
-        var err_log = processDescription.pm2_env.pm_err_log_path;
+        var out_log = processDescription[0].pm2_env.pm_out_log_path;
+        var err_log = processDescription[0].pm2_env.pm_err_log_path;
  
         fs.readFile(out_log, 'utf8', function(err, contents) {
             console.log(contents);
