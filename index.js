@@ -45,8 +45,10 @@ app.get('/test', function(req, res) {
               <th scope="col">CPU</th>
               <th scope="col">Memory</th>
 			  <th scope="col">Instances</th>
-			  <th scope="col">Restarts/Unstable</th>
-			  <th scope="col">Watch/Auto-Restart</th>
+			  <th scope="col">Restarts</th>
+			  <th scope="col">Unstable Restarts</th>
+			  <th scope="col">Watch</th>
+			  <th scope="col">Auto-Restart</th>
               <th scope="col">Uptime</th>
               <th scope="col">Status</th>
 			  <th scope="col">Action</th>
@@ -82,8 +84,10 @@ app.get('/test', function(req, res) {
 			  <td>` + element.cpu + `%</td>
 			  <td>` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
 			  <td>` + formatNumber(element.instances) + `</td>
-			  <td>` + formatNumber(element.restarts) + "/" + formatNumber(element.unstable_restarts) + `</td>
-			  <td>` + (element.watch ? "Yes" : "No") + "/" + (element.autorestart ? "Yes" : "No") + `</td>
+			  <td>` + formatNumber(element.restarts) + `</td>
+			  <td>` + formatNumber(element.unstable_restarts) + `</td>
+			  <td>` + (element.watch ? "Yes" : "No") + `</td>
+			  <td>` + (element.autorestart ? "Yes" : "No") + `</td>
 			  <td>` + formatTime(element.uptime) + `</td>
 			  <td class="text-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</td>
 			  <td>
