@@ -317,8 +317,7 @@ function createLogModal(log_path) {
         </div>
       </div>
     </div>`;
-        return html;
-    });
+    return html;
 }
 
 function formatTime(timestamp) {
