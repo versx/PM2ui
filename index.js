@@ -15,7 +15,7 @@ const users = {
 
 var app = express();
 app.set('view engine', 'html');
-app.use(basicAuth({ users }))
+app.use(basicAuth({ users: users }))
 app.use(bodyParser());
 //app.use(express.static(__dirname + '/View'));
 //app.use(express.static(__dirname + '/Script'));
