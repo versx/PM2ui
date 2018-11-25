@@ -5,13 +5,13 @@ var basicAuth  = require('express-basic-auth')
 var fs         = require('fs');
 var bodyParser = require('body-parser');
 
-/**Configuration options*/
+/**Configurable options*/
 const port = 8080;
-const root = '/test';
+const root = '/';
 const users = {
     'admin': 'pass123'	
 };
-/**/
+/***********************/
 
 var app = express();
 app.set('view engine', 'html');
