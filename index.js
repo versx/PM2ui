@@ -44,6 +44,9 @@ app.get('/test', function(req, res) {
               <th scope="col">PID</th>
               <th scope="col">CPU</th>
               <th scope="col">Memory</th>
+			  <th scope="col">Instances</th>
+			  <th scope="col">Restarts/Unstable</th>
+			  <th scope="col">Watch/Auto-Restart</th>
               <th scope="col">Uptime</th>
               <th scope="col">Status</th>
 			  <th scope="col">Action</th>
@@ -57,12 +60,17 @@ app.get('/test', function(req, res) {
 
 		var instances = processDescriptionList.map(function(x) {
 			return {
-				name:x.name,
-				pid:x.pid,
-				cpu:x.monit.cpu,
-				mem:x.monit.memory,
-				uptime:x.pm2_env.pm_uptime,
-				status:x.pm2_env.status
+                name:x.name,
+                pid:x.pid,
+                cpu:x.monit.cpu,
+                mem:x.monit.memory,
+                instances:x.pm2_env.instances,
+                restarts:x.pm2_env.restart_time,
+                unstable_restarts:x.pm2_env.unstable_restarts,
+                uptime:x.pm2_env.pm_uptime,
+                watch:x.pm2_env.watch,
+                autorestart:x.pm2_env.autorestart,
+                status:x.pm2_env.status
 			};
 		});
     		
@@ -73,6 +81,9 @@ app.get('/test', function(req, res) {
 			  <td>` + element.pid + `</td>
 			  <td>` + element.cpu + `%</td>
 			  <td>` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
+			  <td>` + formatNumber(element.instances) + `</td>
+			  <td>` + formatNumber(element.restarts) + "/" + formatNumber(element.unstable_restarts) + `</td>
+			  <td>` + (element.watch ? "Yes" : "No") + "/" + (element.autorestart ? "Yes" : "No") + `</td>
 			  <td>` + formatTime(element.uptime) + `</td>
 			  <td class="text-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</td>
 			  <td>
@@ -143,7 +154,12 @@ app.get('/list', function(req, res) {
                 pid:x.pid,
                 cpu:x.monit.cpu,
                 mem:x.monit.memory,
+                instances:x.pm2_env.instances,
+                restarts:x.pm2_env.restart_time,
+                unstable_restarts:x.pm2_env.unstable_restarts,
                 uptime:x.pm2_env.pm_uptime,
+                watch:x.pm2_env.watch,
+                autorestart:x.pm2_env.autorestart,
                 status:x.pm2_env.status
             };
         });
