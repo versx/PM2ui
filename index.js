@@ -71,6 +71,11 @@ function viewProcesses(req, res) {
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet">
+table th.text-center, table td.text-center { 
+    text-align: center;
+}
+	</link>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -84,35 +89,35 @@ function viewProcesses(req, res) {
       <div class="table-responsive-md">
         <table class="table table-striped table-bordered table-hover">
           <thead class="thead-dark">
-            <th scope="col">Name</th>
-              <th scope="col">PID</th>
-              <th scope="col">CPU</th>
-              <th scope="col">Memory</th>
-			  <th scope="col">Instances</th>
-			  <th scope="col">Restarts</th>
-			  <th scope="col">Unstable Restarts</th>
-			  <th scope="col">Watch</th>
-			  <th scope="col">Auto-Restart</th>
-              <th scope="col">Uptime</th>
-              <th scope="col">Status</th>
-			  <th scope="col">Action</th>
+              <th scope="col">Name</th>
+              <th>PID</th>
+              <th>CPU</th>
+              <th>Memory</th>
+			  <th>Instances</th>
+			  <th>Restarts</th>
+			  <th>Unstable Restarts</th>
+			  <th>Watch</th>
+			  <th>Auto-Restart</th>
+              <th>Uptime</th>
+              <th>Status</th>
+			  <th>Action</th>
             </thead>
           <tbody>`;
 		
 		instances.forEach(function(element) {
 			html += `
 			<tr>
-			  <td scope="row" class="text-center">` + element.name + `</td>
-			  <td class="text-center">` + element.pid + `</td>
-			  <td class="text-center">` + element.cpu + `%</td>
-			  <td class="text-center">` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
-			  <td class="text-center">` + formatNumber(element.instances) + `</td>
-			  <td class="text-center">` + formatNumber(element.restarts) + `</td>
-			  <td class="text-center">` + formatNumber(element.unstable_restarts) + `</td>
-			  <td class="text-center">` + (element.watch ? "Yes" : "No") + `</td>
-			  <td class="text-center">` + (element.autorestart ? "Yes" : "No") + `</td>
-			  <td class="text-center">` + formatTime(element.uptime) + `</td>
-			  <td class="text-` + (element.status === "online" ? "success" : "danger") + ` text-center">` + element.status + `</td>
+			  <td scope="row">` + element.name + `</td>
+			  <td>` + element.pid + `</td>
+			  <td>` + element.cpu + `%</td>
+			  <td>` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
+			  <td>` + formatNumber(element.instances) + `</td>
+			  <td>` + formatNumber(element.restarts) + `</td>
+			  <td>` + formatNumber(element.unstable_restarts) + `</td>
+			  <td>` + (element.watch ? "Yes" : "No") + `</td>
+			  <td>` + (element.autorestart ? "Yes" : "No") + `</td>
+			  <td>` + formatTime(element.uptime) + `</td>
+			  <td class="text-` + (element.status === "online" ? "success" : "danger") + `">` + element.status + `</td>
 			  <td>
 				<div class="btn-group" role="group" aria-label="...">
 				  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
