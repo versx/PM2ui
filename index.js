@@ -121,49 +121,53 @@ function viewProcesses(req, res) {
           <tbody>`;
 		
         instances.forEach(function(element) {
-            fs.readFile(element.out_log_path, 'utf8', function(err, contents) {
-                html += `
-                <tr>
-                  <td scope="row" class="text-center">` + element.name + `</td>
-                  <td class="text-center">` + element.pid + `</td>
-                  <td class="text-center">` + element.cpu + `%</td>
-                  <td class="text-center">` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
-                  <td class="text-center">` + formatNumber(element.instances) + `</td>
-                  <td class="text-center">` + formatNumber(element.restarts) + `</td>
-                  <td class="text-center">` + formatNumber(element.unstable_restarts) + `</td>
-                  <td class="text-center">` + (element.watch ? "Yes" : "No") + `</td>
-                  <td class="text-center">` + (element.autorestart ? "Yes" : "No") + `</td>
-                  <td class="text-center">` + formatTime(element.uptime) + `</td>
-                  <td class="text-` + (element.status === "online" ? "success" : "danger") + ` text-center">` + element.status + `</td>
-                  <td>
-                    <div class="btn-group" role="group" aria-label="...">
-                      <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
-                      <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
-                      <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
-                      <a class="btn btn-primary btn-default" href="/logs/` + element.name + `">View Logs</a>
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#` + element.name + `">Logs</button>
-                    </div>
-                  </td>
-                </tr>
-                <div class="modal fade" id="` + element.name + `" tabindex="-1" role="dialog">
-                  <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">` + element.name + ` Logs</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <p><textarea class="form-control" rows="10">` + contents + `</textarea></p>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      </div>
-                    </div>
+            html += `
+            <tr>
+              <td scope="row" class="text-center">` + element.name + `</td>
+              <td class="text-center">` + element.pid + `</td>
+              <td class="text-center">` + element.cpu + `%</td>
+              <td class="text-center">` + formatNumber((element.mem / 1024) / 1024) + ` MB</td>
+              <td class="text-center">` + formatNumber(element.instances) + `</td>
+              <td class="text-center">` + formatNumber(element.restarts) + `</td>
+              <td class="text-center">` + formatNumber(element.unstable_restarts) + `</td>
+              <td class="text-center">` + (element.watch ? "Yes" : "No") + `</td>
+              <td class="text-center">` + (element.autorestart ? "Yes" : "No") + `</td>
+              <td class="text-center">` + formatTime(element.uptime) + `</td>
+              <td class="text-` + (element.status === "online" ? "success" : "danger") + ` text-center">` + element.status + `</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="...">
+                  <a class="btn btn-success btn-default" href="/start/` + element.name + `" role="button">Start</a>
+                  <a class="btn btn-danger btn-default" href="/stop/` + element.name + `" role="button">Stop</a>
+                  <a class="btn btn-primary btn-default" href="/restart/` + element.name + `" role="button">Restart</a>
+                  <a class="btn btn-primary btn-default" href="/logs/` + element.name + `">View Logs</a>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#` + element.name + `">Logs</button>
+                </div>
+              </td>
+            </tr>
+            <div class="modal fade" id="` + element.name + `" tabindex="-1" role="dialog">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">` + element.name + ` Logs</h5>
+					<h2>` + element.out_log_path + `</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
-                </div>`;
+                  <div class="modal-body">
+                    <p><textarea class="form-control" rows="10">`;
+            fs.readFile(element.out_log_path, 'utf8', function(err, contents) {
+                html += contents;
             });
+            html += `</textarea></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+			`;
         });
     		
         html += `
