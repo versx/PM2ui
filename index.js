@@ -1,17 +1,24 @@
 var http       = require('http');
 var pm2        = require('pm2');
 var express    = require('express');
+var basicAuth  = require('express-basic-auth')
 var fs         = require('fs');
 var bodyParser = require('body-parser');
 
+/**Configuration options*/
+const port = 8080;
+const root = '/test';
+const users = {
+	'admin': 'pass123'	
+}
+/**/
+
 var app = express();
 app.set('view engine', 'html');
+app.use(basicAuth({ users }))
 app.use(bodyParser());
 //app.use(express.static(__dirname + '/View'));
 //app.use(express.static(__dirname + '/Script'));
-
-const port = 8080;
-const root = '/test';
 
 pm2.connect(function(err) {
     if (err) {
