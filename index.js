@@ -143,8 +143,7 @@ function viewProcesses(req, res) {
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#` + element.name + `">Logs</button>
                 </div>
               </td>
-            </tr>`;
-            html += createLogModal(element.name, element.out_log_path);
+            </tr>` + createLogModal(element.name, element.out_log_path);
         });
     		
         html += `
@@ -295,11 +294,11 @@ function submitChanges(req, res) {
 
 function createLogModal(id, log_path) {
     var html = `
-    <div class="modal fade" id="` + id + `" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="` + id + `" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">` + log_path + `</h5>
+            <h5 class="modal-title">` + id + ` Logs</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -309,7 +308,7 @@ function createLogModal(id, log_path) {
     fs.readFile(log_path, 'utf8', function(err, contents) {
         html += contents;
     });
-	html += `</textarea></p>
+    html += `</textarea></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
