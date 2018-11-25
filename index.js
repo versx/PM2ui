@@ -9,13 +9,13 @@ var bodyParser = require('body-parser');
 const port = 8080;
 const root = '/test';
 const users = {
-	'admin': 'pass123'	
-}
+    'admin': 'pass123'	
+};
 /**/
 
 var app = express();
 app.set('view engine', 'html');
-app.use(basicAuth({ users: users, challenge: true }))
+app.use(basicAuth({ users: users, challenge: true }));
 app.use(bodyParser());
 //app.use(express.static(__dirname + '/View'));
 //app.use(express.static(__dirname + '/Script'));
