@@ -148,8 +148,7 @@ function viewProcesses(req, res) {
               <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">` + element.name + ` Logs</h5><br/>
-					<h6>File: ` + element.out_log_path + `</h6>
+                    <h5 class="modal-title">` + element.name + ` Logs <small>` + element.out_log_path + `</small></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
