@@ -44,14 +44,14 @@ function viewProcesses(req, res) {
     console.log(req.query);
     //res.sendFile(__dirname + '/index.html');
     //res.render('index', instances, function(err, html) {});
-	pm2.list(function(err, processDescriptionList) {
-		if (err) {
-			console.error(err);
-			process.exit(2);
-		}
+    pm2.list(function(err, processDescriptionList) {
+        if (err) {
+            console.error(err);
+            process.exit(2);
+        }
 
-		var instances = processDescriptionList.map(function(x) {
-			return {
+        var instances = processDescriptionList.map(function(x) {
+            return {
                 name:x.name,
                 pid:x.pid,
                 cpu:x.monit.cpu,
