@@ -10,7 +10,8 @@ app.use(bodyParser());
 //app.use(express.static(__dirname + '/View'));
 //app.use(express.static(__dirname + '/Script'));
 
-var port = 8080;
+const port = 8080;
+const root = '/test';
 
 pm2.connect(function(err) {
     if (err) {
@@ -19,42 +20,23 @@ pm2.connect(function(err) {
     }
 });
 
-app.get('/test', function(req, res) {
+app.get(root, viewProcesses);
+app.post('/submit', submitChanges);
+app.get('/list', listProcesses);
+app.get('/start/:name', startProcess);
+app.get('/stop/:name', stopProcess);
+app.get('/restart/:name', restartProcess);
+app.get('/logs/:name', viewLogs);
+
+var server = app.listen(port, function() {
+    var host = server.address().address;
+    console.log("Listening on http://%s:%s", host, port);
+});
+
+function viewProcesses(req, res) {
     console.log(req.query);
     //res.sendFile(__dirname + '/index.html');
     //res.render('index', instances, function(err, html) {});
-    var html = `
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <div class="container-fluid">`;
-    if (req.query.status !== undefined) {
-		html += `<div class="alert alert-` + (req.query.status === '1' ? "danger" : "success") + `" role="alert">` + req.query.msg + `</div>`;
-    }
-	html += `
-      <div class="table-responsive-md">
-        <table class="table table-striped table-bordered table-hover">
-          <thead class="thead-dark">
-            <th scope="col">Name</th>
-              <th scope="col">PID</th>
-              <th scope="col">CPU</th>
-              <th scope="col">Memory</th>
-			  <th scope="col">Instances</th>
-			  <th scope="col">Restarts</th>
-			  <th scope="col">Unstable Restarts</th>
-			  <th scope="col">Watch</th>
-			  <th scope="col">Auto-Restart</th>
-              <th scope="col">Uptime</th>
-              <th scope="col">Status</th>
-			  <th scope="col">Action</th>
-            </thead>
-          <tbody>`;
 	pm2.list(function(err, processDescriptionList) {
 		if (err) {
 			console.error(err);
@@ -76,7 +58,40 @@ app.get('/test', function(req, res) {
                 status:x.pm2_env.status
 			};
 		});
-    		
+
+        var html = `
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">`;
+        if (req.query.status !== undefined) {
+		    html += `<div class="alert alert-` + (req.query.status === '1' ? "danger" : "success") + `" role="alert">` + req.query.msg + `</div>`;
+        }
+	    html += `
+      <div class="table-responsive-md">
+        <table class="table table-striped table-bordered table-hover">
+          <thead class="thead-dark">
+            <th scope="col">Name</th>
+              <th scope="col">PID</th>
+              <th scope="col">CPU</th>
+              <th scope="col">Memory</th>
+			  <th scope="col">Instances</th>
+			  <th scope="col">Restarts</th>
+			  <th scope="col">Unstable Restarts</th>
+			  <th scope="col">Watch</th>
+			  <th scope="col">Auto-Restart</th>
+              <th scope="col">Uptime</th>
+              <th scope="col">Status</th>
+			  <th scope="col">Action</th>
+            </thead>
+          <tbody>`;
+		
 		instances.forEach(function(element) {
 			html += `
 			<tr>
@@ -112,9 +127,112 @@ app.get('/test', function(req, res) {
         res.write(html);
         res.end();
     });
-});
+}
 
-app.post('/submit', function(req, res) {
+function listProcesses(req, res) {
+    pm2.list(function(err, processDescriptionList) {
+        if (err) {
+            console.error(err);
+            process.exit(2);
+        }
+
+        var instances = processDescriptionList.map(function(x) {
+            return {
+                name:x.name,
+                pid:x.pid,
+                cpu:x.monit.cpu,
+                mem:x.monit.memory,
+                instances:x.pm2_env.instances,
+                restarts:x.pm2_env.restart_time,
+                unstable_restarts:x.pm2_env.unstable_restarts,
+                uptime:x.pm2_env.pm_uptime,
+                watch:x.pm2_env.watch,
+                autorestart:x.pm2_env.autorestart,
+                status:x.pm2_env.status
+            };
+        });
+
+        res.write(JSON.stringify(instances));
+        res.end();
+    });
+}
+
+function startProcess(req, res) {
+    console.log("Attempting to start", req.params.name);
+    pm2.start(req.params.name, function(err) {
+        var url = root + '/?status&msg=';
+        if (err) {
+            console.error(err);
+            url += err;
+        } else {
+            var successMsg = req.params.name + " started successfully.";
+            console.log(successMsg);
+            url += successMsg;
+        }
+        
+        res.redirect(url);
+        res.end();
+    });
+}
+
+function stopProcess(req, res) {
+    console.log("Attempting to stop", req.params.name);
+    pm2.stop(req.params.name, function(err) {
+        var url = root + '/?status&msg=';
+        if (err) {
+            console.error(err);
+            url += err;
+        } else {
+            var successMsg = req.params.name + " stopped successfully.";
+            console.log(successMsg);
+            url += successMsg;
+        }
+        
+        res.redirect(url);
+        res.end();
+    });
+}
+
+function restartProcess(req, res) {
+    console.log("Attempting to restart", req.params.name);
+    pm2.restart(req.params.name, function(err) {
+        var url = root + '/?status&msg=';
+        if (err) {
+            console.error(err);
+            url += err;
+        } else {
+            var successMsg = req.params.name + " restarted successfully.";
+            console.log(successMsg);
+            url += successMsg;
+        }
+        
+        res.redirect(url);
+        res.end();
+    });
+}
+
+function viewLogs(req, res) {
+    var name = req.params.name;
+    pm2.describe(name, function(err, processDescription) {
+        if (err) {
+            console.error(err);
+            process.exit(2);
+        }
+		
+		console.log(processDescription[0]);
+		
+        var out_log = processDescription[0].pm2_env.pm_out_log_path;
+        var err_log = processDescription[0].pm2_env.pm_err_log_path;
+ 
+        fs.readFile(err_log, 'utf8', function(err, contents) {
+            console.log(contents);
+			res.write(contents);
+			res.end();
+        });
+    });
+}
+
+function submitChanges(req, res) {
     var body = req.body;
     console.log(body);
 
@@ -145,115 +263,7 @@ app.post('/submit', function(req, res) {
     }).on('error', function(err) {
         console.log("Error:", err.message);
     });
-});
-
-app.get('/list', function(req, res) {
-    pm2.list(function(err, processDescriptionList) {
-        if (err) {
-            console.error(err);
-            process.exit(2);
-        }
-
-        var instances = processDescriptionList.map(function(x) {
-            return {
-                name:x.name,
-                pid:x.pid,
-                cpu:x.monit.cpu,
-                mem:x.monit.memory,
-                instances:x.pm2_env.instances,
-                restarts:x.pm2_env.restart_time,
-                unstable_restarts:x.pm2_env.unstable_restarts,
-                uptime:x.pm2_env.pm_uptime,
-                watch:x.pm2_env.watch,
-                autorestart:x.pm2_env.autorestart,
-                status:x.pm2_env.status
-            };
-        });
-
-        res.write(JSON.stringify(instances));
-        res.end();
-    });
-});
-
-app.get('/logs/:name', function(req, res) {
-    var name = req.params.name;
-    pm2.describe(name, function(err, processDescription) {
-        if (err) {
-            console.error(err);
-            process.exit(2);
-        }
-		
-		console.log(processDescription[0]);
-		
-        var out_log = processDescription[0].pm2_env.pm_out_log_path;
-        var err_log = processDescription[0].pm2_env.pm_err_log_path;
- 
-        fs.readFile(err_log, 'utf8', function(err, contents) {
-            console.log(contents);
-			res.write(contents);
-			res.end();
-        });
-    });
-});
-
-app.get('/start/:name', function(req, res) {
-    console.log("Attempting to start", req.params.name);
-    pm2.start(req.params.name, function(err) {
-        var url = '/test/?status&msg=';
-        if (err) {
-            console.error(err);
-            url += err;
-        } else {
-            var successMsg = req.params.name + " started successfully.";
-            console.log(successMsg);
-            url += successMsg;
-        }
-        
-        res.redirect(url);
-        res.end();
-    });
-});
-
-app.get('/stop/:name', function(req, res) {
-    console.log("Attempting to stop", req.params.name);
-    pm2.stop(req.params.name, function(err) {
-        var url = '/test/?status&msg=';
-        if (err) {
-            console.error(err);
-            url += err;
-        } else {
-            var successMsg = req.params.name + " stopped successfully.";
-            console.log(successMsg);
-            url += successMsg;
-        }
-        
-        res.redirect(url);
-        res.end();
-    });
-});
-
-app.get('/restart/:name', function(req, res) {
-    console.log("Attempting to restart", req.params.name);
-    pm2.restart(req.params.name, function(err) {
-        var url = '/test/?status&msg=';
-        if (err) {
-            console.error(err);
-            url += err;
-        } else {
-            var successMsg = req.params.name + " restarted successfully.";
-            console.log(successMsg);
-            url += successMsg;
-        }
-        
-        res.redirect(url);
-        res.end();
-    });
-});
-
-var server = app.listen(port, function() {
-    var host = server.address().address;
-    console.log("Listening on http://%s:%s", host, port);
-});
+}
 
 function formatTime(timestamp) {
     // Create a new JavaScript Date object based on the timestamp
