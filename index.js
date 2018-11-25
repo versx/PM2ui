@@ -143,7 +143,30 @@ function viewProcesses(req, res) {
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#` + element.name + `">Logs</button>
                 </div>
               </td>
-            </tr>` + createLogModal(element.name, element.out_log_path);
+            </tr>
+            <div class="modal fade" id="` + element.name + `" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">` + element.name + ` Logs</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p><textarea>`;
+            fs.readFile(element.out_log_path, 'utf8', function(err, contents) {
+                html += contents;
+            });
+            html += `</textarea></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+			`;
         });
     		
         html += `
@@ -290,33 +313,6 @@ function submitChanges(req, res) {
     }).on('error', function(err) {
         console.log("Error:", err.message);
     });
-}
-
-function createLogModal(id, log_path) {
-    var html = `
-    <div class="modal fade" id="` + id + `" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">` + id + ` Logs</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p><textarea>`;
-    fs.readFile(log_path, 'utf8', function(err, contents) {
-        html += contents;
-    });
-    html += `</textarea></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>`;
-    return html;
 }
 
 function formatTime(timestamp) {
